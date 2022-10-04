@@ -19,6 +19,8 @@ interface Props {
     link: string;
     linkText: string;
     onSubmit: (values: FormValues) => void;
+    isLoading: boolean;
+    isError?: boolean;
 }
 
 export type FormValues = {
@@ -31,7 +33,14 @@ const initialValues: FormValues = {
     password: "",
 };
 
-export const AuthForm: FC<Props> = ({ title, link, linkText, onSubmit }) => {
+export const AuthForm: FC<Props> = ({
+    title,
+    link,
+    linkText,
+    onSubmit,
+    isLoading,
+    isError,
+}) => {
     return (
         <Container component="main" maxWidth="xs">
             <Box
@@ -97,10 +106,16 @@ export const AuthForm: FC<Props> = ({ title, link, linkText, onSubmit }) => {
                                         type="submit"
                                         fullWidth
                                         variant="contained"
+                                        disabled={isLoading}
                                         sx={{ mt: 3, mb: 2 }}
                                     >
                                         {title}
                                     </Button>
+                                    {isError && (
+                                        <Typography color={"red"} fontSize={12}>
+                                            An error occurred
+                                        </Typography>
+                                    )}
                                 </Form>
                             );
                         }}
